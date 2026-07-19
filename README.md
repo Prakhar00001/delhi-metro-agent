@@ -2,30 +2,6 @@
 
 Autonomous Delhi-NCR Commute Ingestion EngineTransform chaotic daily gridlock into mathematically optimized, context-aware travel transit strategies using generative intelligence and deterministic graph topology networks.
 
-📁 Repository Structure
-
-delhi-metro-agent/
-├── api/                             # Python Flask Backend Service
-│   ├── data/                        # Static and Dynamic Graph Matrix Data
-│   │   ├── network.py               # Handles NetworkX Graph creation & weight mutation
-│   │   └── stations.csv             # Primary DMRC Station Registry Data Catalog
-│   ├── venv/                        # Isolated Python Virtual Environment (Local only)
-│   ├── index.py                     # Core Flask API Gateway & LLM Orchestration Tier
-│   └── requirements.txt             # Backend Framework Dependency Tree Configuration
-│
-├── delhi-metro-agent/               # Next.js 15 Frontend Client Application
-│   ├── src/                         # Application Source Directory
-│   │   ├── app/                     # Next.js App Router Architecture Layouts
-│   │   │   ├── layout.tsx           # Global HTML shell wrapper & Font Provider
-│   │   │   └── page.tsx             # Interactive dashboard component ('use client')
-│   │   └── components/              # Reusable React UI presentation fragments
-│   ├── public/                      # Static image layers, icons, and SVG assets
-│   ├── package.json                 # Node.js Module Bundle Settings & Run Scripts
-│   ├── tailwind.config.ts           # Custom UI Style Framework Theme Properties
-│   └── next.config.js               # Next.js Framework Core Execution Profiles
-│
-├── .gitattributes                   # Tells GitHub to force primary language tracking to Python
-└── README.md                        # Production-grade system design documentation
 
 
 🧠 Core Engineering Paradigms
