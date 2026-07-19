@@ -1,135 +1,114 @@
-🚇 Delhi Metro Commute AI Agent
-An autonomous, full-stack transit optimization engine that transforms unstructured natural language travel requests into real-time, context-aware travel advisory strategies.
+🚇 MetroSage AI: 
 
-By separating deterministic path calculations from probabilistic linguistic parsing, the system couples static DMRC (Delhi Metro Rail Corporation) Graph Networks with dynamic environmental indices (live passenger crowding density streams, active system delays) through an advanced Large Language Model orchestration tier.
+Autonomous Delhi-NCR Commute Ingestion EngineTransform chaotic daily gridlock into mathematically optimized, context-aware travel transit strategies using generative intelligence and deterministic graph topology networks.
 
-🏗️ Architectural Topology
+📁 Repository Structure
 
-[Phase 1: Input Ingestion]
-Next.js 15 Client (page.tsx) captures the user text input and passenger preferences.
+delhi-metro-agent/
+├── api/                             # Python Flask Backend Service
+│   ├── data/                        # Static and Dynamic Graph Matrix Data
+│   │   ├── network.py               # Handles NetworkX Graph creation & weight mutation
+│   │   └── stations.csv             # Primary DMRC Station Registry Data Catalog
+│   ├── venv/                        # Isolated Python Virtual Environment (Local only)
+│   ├── index.py                     # Core Flask API Gateway & LLM Orchestration Tier
+│   └── requirements.txt             # Backend Framework Dependency Tree Configuration
+│
+├── delhi-metro-agent/               # Next.js 15 Frontend Client Application
+│   ├── src/                         # Application Source Directory
+│   │   ├── app/                     # Next.js App Router Architecture Layouts
+│   │   │   ├── layout.tsx           # Global HTML shell wrapper & Font Provider
+│   │   │   └── page.tsx             # Interactive dashboard component ('use client')
+│   │   └── components/              # Reusable React UI presentation fragments
+│   ├── public/                      # Static image layers, icons, and SVG assets
+│   ├── package.json                 # Node.js Module Bundle Settings & Run Scripts
+│   ├── tailwind.config.ts           # Custom UI Style Framework Theme Properties
+│   └── next.config.js               # Next.js Framework Core Execution Profiles
+│
+├── .gitattributes                   # Tells GitHub to force primary language tracking to Python
+└── README.md                        # Production-grade system design documentation
 
-Dispatches an async JSON payload via POST /api/commute to the backend.
 
-[Phase 2: Backend API Gateway]
-Flask API Server (index.py) receives the payload on Port 5000.
+🧠 Core Engineering Paradigms
 
-Handles security protocol checks using configured cross-origin CORS policies.
+Linguistic Parsing vs. Deterministic Routing: Natural language inputs often contain regional slang or typos (e.g., "Rajiv to Huda avoiding crowd"). The AI tier isolates the source/destination entities using gemini-2.5-flash with structured JSON output schemas, while NetworkX manages the structural graph geometry.
 
-[Phase 3: Parallel Processing Engines]
+Reactive Cost-Weight Edge Shifting: 
 
-A. LLM Semantic Parser (Gemini 2.5 Flash): Translates conversational language, typos, or slang into exact, validated DMRC station node tokens.
-
-B. Graph Matrix Modifier (NetworkX): Ingests the core transit system graph and applies mathematical weight penalties for active corridor delays or crowded station boundaries.
-
-[Phase 4: Algorithmic Optimization]
-Dijkstra Path Solver Engine: Executes an absolute shortest-path node search using the dynamically adjusted weights to route around crowd bottlenecks.
-
-[Phase 5: Strategy Advisory Synthesis]
-Gemini 2.5 Conversational Engine: Packages the raw path sequence array, fare rates, and durations into a natural, friendly narrative outlining platform transfers and last-mile connectivity.
-
-[Phase 6: Reactive UI Hydration]
-The Next.js client renders the descriptive advisory text alongside a color-coded, interactive station path workflow tracking high-congestion alerts.
-
-⚡ Core Engineering Paradigms
-
-1. Semantic Entity Disambiguation
-
-Traditional routing engines crash when provided with typos or colloquial shortcuts (e.g., "Huda to Rajiv"). This system applies a high-speed inference pass using gemini-2.5-flash configured with a strict JSON Schema signature. It cross-references natural text strings against verified graph nodes, resolving anomalies and returning an explicit token map: {"source": "Node_A", "destination": "Node_B"}.
-
-2. Reactive Cost-Weight Overrides
-
-Instead of resolving static geographical coordinates, the backend mutates its graph edge metrics dynamically before each calculation cycle. The total weight metric ($W_{opt}$) across any line segment vector ($u, v$) is calculated as follows:
+Before executing a path search, the edge array weights mutate mathematically according to live congestion telemetry and track infrastructure delays:
 
 $$W_{opt}(u, v) = W_{base}(u, v) + D_{line} + C_u + C_v$$
 
-Where:
+Predictive First/Last Mile Hydration:
 
-$W_{base}$ is the static standard runtime weight metric between stations.$D_{line}$ represents the dynamic delay index (in minutes) pulled from the live status feed for that specific line.$C_u, C_v$ are penalty modifiers applied if passenger volume levels at node boundaries hit High or Extreme thresholds.
+Generative synthesis automatically appends multi-modal contextual guidance for final transfers, calculating accurate localized transport vectors (E-Rickshaws, auto-rickshaws, feeder buses).
 
-3. Dijkstra Graph Node Search
+✨ Key Features
 
-Once the edge weight arrays are optimized, the system triggers a localized shortest-path search using the NetworkX library. This ensures that the system preserves mathematical determinism for path selection, entirely avoiding the hallucination risks common in pure-LLM routing layouts.
+🗣️ Natural Language Intent Parsing: Submit complex, unstructured conversational requests containing contextual nuances directly.
 
+🚦 Dynamic Path Congestion Overrides: Mathematically bypass highly congested hubs (like Rajiv Chowk or Kashmere Gate) during localized peak rushes.
 
+🎨 Tailwind Dashboard Architecture: High-speed, dark-themed responsive user interface optimized to trace matching color-coded DMRC line indicators.
+
+🤖 State-Preserving Interaction Storage: Persistent session memory provides rapid suggestions tailored around historical travel tracks.
 
 🛠️ Technological Footprint
 
-Backend Microservice Engine (/api)
+Backend Microservice (/api)
 
-Core Framework: Flask with native Flask-CORS for cross-origin resource access management.
+Core API Layer: Python Flask with isolated execution threads.
 
-Graph Computations: networkx handling high-performance path layout matrices.
+Graph Engine: NetworkX handling core Dijkstra matrices.
 
-LLM Intelligence Layer: google-genai (Google AI Platform SDK) targeting low-latency models (gemini-2.5-flash).
+Data Pipelines: Pandas managing static node registry lookups.
 
+AI Orchestration: Official google-genai SDK interface layer.
 
+Frontend Dashboard (/src)
 
+App Framework: Next.js 15 configured with App Router structure.
 
-Frontend Interface Dashboard (/src)
+Styling Engine: Tailwind CSS providing low-friction UI components.
 
-Core Infrastructure: Next.js 15 (App Router architecture) utilizing client-side state hydration loops ('use client').
+Icon Sets: Lucide React tracking state change indicators.
 
-Styling Architecture: Tailwind CSS configured with a dark-mode UI optimized for scanning transit details.
+⚙️ Development Environment Setup
 
-UI Assets: lucide-react tracking dynamic crowding indicators and transit status steps
-
-
-
-
-⚙️ Development Environment Set Up
-
-Backend Configuration
-
-Go into the backend folder:
+🐍 Backend Service ConfigurationEnsure you have Python 3.10+ available locally, then run the setup steps:
 
 cd api
-
-Create your virtual environment:
-
 python -m venv venv
 
-Activate the virtual environment:
+Activate the environment based on your current operating system platform:
 
-venv\Scripts\activate
+Windows PowerShell:PowerShellSet-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+.\venv\Scripts\activate
 
-Install the backend dependencies:
+Linux / macOS:Bashsource venv/bin/activate
 
-pip install -r requirements.txt
+Install dependencies, provision your authorization token, and fire up the microservice listener layer:
 
-Run the backend script:
+Bash: pip install flask flask-cors google-genai networkx pandas
 
+
+$env:GEMINI_API_KEY="AIzaSyYourActualStudioKeyGoesHere"
 python index.py
 
 
+⚛️ Frontend UI Configuration
 
-Frontend Setup Commands
+Open a separate concurrent terminal shell window to install the Node bundles and launch the local compiler server:
 
-(Open a separate terminal window first, then run these)
-
-Go into the main project folder:
-
-cd delhi-metro-agent
-
-Install the frontend packages:
-
+Bash: cd delhi-metro-agent
 npm install
-
-Start the frontend server:
-
 npm run dev
 
-Launch your browser window and navigate to  http://localhost:3000 to test your localized execution pipeline.
+Navigate your local web browser tool over to http://localhost:3000 to interact with the full-stack setup.
 
 
-💡 Key Design Takeaways
+💡 Key Design Takeaways[!IMPORTANT]
 
+Algorithmic Guardrails:
 
-Algorithmic Guardrails: 
-
-Pure LLM engines are inherently bad at complex graph pathfinding calculations. Delegating core path resolution to NetworkX and employing the LLM exclusively for linguistic translation and contextual advisory completely removes execution errors.
-
-Decoupled State Hydration: 
-
-Splitting client dashboard layouts from the heavy Python graph compilation matrices guarantees rapid UI updates and maintains a scalable microservice boundary footprint.
-
+Large Language Models are structurally incapable of executing deterministic path matrix optimizations efficiently. Isolating the LLM layers exclusively to structural intent extraction and narrative summary generation provides maximum system reliability.
 
