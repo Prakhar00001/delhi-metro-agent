@@ -50,6 +50,8 @@ $W_{base}$ is the static standard runtime weight metric between stations.$D_{lin
 
 Once the edge weight arrays are optimized, the system triggers a localized shortest-path search using the NetworkX library. This ensures that the system preserves mathematical determinism for path selection, entirely avoiding the hallucination risks common in pure-LLM routing layouts.
 
+
+
 🛠️ Technological Footprint
 
 Backend Microservice Engine (/api)
@@ -60,6 +62,8 @@ Graph Computations: networkx handling high-performance path layout matrices.
 
 LLM Intelligence Layer: google-genai (Google AI Platform SDK) targeting low-latency models (gemini-2.5-flash).
 
+
+
 Frontend Interface Dashboard (/src)
 
 Core Infrastructure: Next.js 15 (App Router architecture) utilizing client-side state hydration loops ('use client').
@@ -68,11 +72,12 @@ Styling Architecture: Tailwind CSS configured with a dark-mode UI optimized for 
 
 UI Assets: lucide-react tracking dynamic crowding indicators and transit status steps
 
+
+
 ⚙️ Development Environment Set Up
 
 Backend Configuration
 
-Backend Setup Commands
 
 Go into the backend folder:
 
@@ -93,6 +98,8 @@ pip install -r requirements.txt
 Run the backend script:
 
 python index.py
+
+
 
 Frontend Setup Commands
 
