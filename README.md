@@ -4,6 +4,7 @@ An autonomous, full-stack transit optimization engine that transforms unstructur
 By separating deterministic path calculations from probabilistic linguistic parsing, the system couples static DMRC (Delhi Metro Rail Corporation) Graph Networks with dynamic environmental indices (live passenger crowding density streams, active system delays) through an advanced Large Language Model orchestration tier.
 
 🏗️ Architectural Topology
+
                   [ NEXT.JS 15 FRONTEND DASHBOARD ]
                                  │
                          (POST /api/commute)
