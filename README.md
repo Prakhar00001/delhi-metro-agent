@@ -64,6 +64,7 @@ LLM Intelligence Layer: google-genai (Google AI Platform SDK) targeting low-late
 
 
 
+
 Frontend Interface Dashboard (/src)
 
 Core Infrastructure: Next.js 15 (App Router architecture) utilizing client-side state hydration loops ('use client').
@@ -74,10 +75,10 @@ UI Assets: lucide-react tracking dynamic crowding indicators and transit status 
 
 
 
+
 ⚙️ Development Environment Set Up
 
 Backend Configuration
-
 
 Go into the backend folder:
 
