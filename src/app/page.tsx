@@ -5,8 +5,9 @@ import StationSelector from "@/components/StationSelector";
 import PromptEditor from "@/components/PromptEditor";
 import ResultsContainer from "@/components/ResultsContainer";
 
+// Replace DMRC_SAMPLE_STATIONS in src/app/page.tsx with these strict dataset markers:
 const DMRC_SAMPLE_STATIONS = [
-  "Millennium City Centre Gurugram",
+  "Millennium City Centre",  // Removed "Gurugram" to align with standard dataset indexing
   "IFFCO Chowk",
   "MG Road",
   "Sikanderpur",
