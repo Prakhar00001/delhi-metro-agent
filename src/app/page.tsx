@@ -5,9 +5,8 @@ import StationSelector from "@/components/StationSelector";
 import PromptEditor from "@/components/PromptEditor";
 import ResultsContainer from "@/components/ResultsContainer";
 
-// Replace DMRC_SAMPLE_STATIONS in src/app/page.tsx with these strict dataset markers:
 const DMRC_SAMPLE_STATIONS = [
-  "Millennium City Centre",  // Removed "Gurugram" to align with standard dataset indexing
+  "Millennium City Centre",
   "IFFCO Chowk",
   "MG Road",
   "Sikanderpur",
@@ -28,77 +27,72 @@ export default function Home() {
     if (!source || !destination) return;
     setIsLoading(true);
     
-    // Programmatically construct the query for the AI agent backend
     const builtQuery = `Optimize route path from ${source} to ${destination}. Priority constraint: ${preference || "Fastest path"}`;
 
     try {
       const response = await fetch("http://127.0.0.1:5000/api/commute", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          query: builtQuery,
-          preferences: preference
-        })
+        body: JSON.stringify({ query: builtQuery, preferences: preference })
       });
       const data = await response.json();
       setResult(data);
     } catch (error) {
-      console.error("Critical Network Interception Error:", error);
+      console.error("Critical API Execution Crash:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const isButtonDisabled = !source || !destination;
-
   return (
-    <main className="min-h-screen bg-[#FBFBFA] px-4 py-12 md:py-20 text-center flex flex-col items-center font-sans">
-      <div className="w-full max-w-4xl flex flex-col items-center gap-6">
+    <main className="min-h-screen bg-[#070A13] px-4 py-12 flex flex-col items-center justify-start font-sans">
+      <div className="w-full max-w-xl flex flex-col gap-8">
         
-        <header className="flex flex-col items-center gap-3 animate-in fade-in duration-500">
+        {/* Brand Top Header Block */}
+        <header className="w-full border-b border-gray-900 pb-5">
           <MetroLogo />
-          <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-metro-dark mt-2 max-w-2xl leading-tight">
-            Navigate the Delhi Metro via <span className="text-metro-accent font-extrabold">Autonomous Intelligence</span>
-          </h1>
-          <p className="text-metro-muted text-[15px] max-w-lg font-medium">
-            Select your route parameters below to generate mathematically optimized transit strategies.
-          </p>
         </header>
 
-        <section className="w-full flex flex-col gap-4 mt-4">
-          {/* Station Selector Row */}
-          <div className="w-full bg-metro-card border border-metro-border rounded-2xl shadow-premium p-4 flex flex-col sm:flex-row gap-4">
+        {/* Unified Journey Card Matching Reference Geometry */}
+        <section className="w-full bg-[#0F172A]/70 border border-gray-800/80 rounded-2xl p-6 shadow-2xl backdrop-blur-md">
+          
+          {/* Card Label */}
+          <div className="flex items-center gap-2 text-[#9CA3AF] text-[13px] font-bold tracking-widest uppercase mb-6">
+            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+            <span>Journey Details</span>
+          </div>
+
+          {/* Dynamic Selection Dropdown Controls */}
+          <div className="flex flex-col gap-4">
             <StationSelector 
-              label="Source Hub" 
-              placeholder="Select origin station..." 
+              label="Source Hub Location" 
+              placeholder="Choose boarding point..." 
               stations={DMRC_SAMPLE_STATIONS} 
               value={source} 
               onChange={setSource} 
             />
-            <div className="hidden sm:flex items-center justify-center pt-5 text-metro-muted/40">
-              <svg width="20" height="20" className="w-5 h-5 min-w-[20px] min-h-[20px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-              </svg>
-            </div>
             <StationSelector 
-              label="Destination Vector" 
-              placeholder="Select target station..." 
+              label="Destination Target Vector" 
+              placeholder="Choose exit point..." 
               stations={DMRC_SAMPLE_STATIONS} 
               value={destination} 
               onChange={setDestination} 
             />
           </div>
 
-          {/* New Preferences Dropdown and Trigger Panel */}
+          {/* Execution Strategy Rules Interface Trigger */}
           <PromptEditor 
             value={preference}
             onChange={setPreference}
             onSubmit={triggerSearchPipeline}
             isLoading={isLoading}
-            disabled={isButtonDisabled}
+            disabled={!source || !destination}
           />
         </section>
 
+        {/* Analytics Yield View Display Output */}
         <ResultsContainer data={result} />
 
       </div>

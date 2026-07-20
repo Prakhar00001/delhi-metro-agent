@@ -13,60 +13,42 @@ export default function StationSelector({ label, placeholder, stations, value, o
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
 
-  const filteredStations = stations.filter(station =>
-    station.toLowerCase().includes(search.toLowerCase())
-  );
+  const filtered = stations.filter(s => s.toLowerCase().includes(search.toLowerCase()));
 
   return (
-    <div className="flex-1 relative flex flex-col gap-1.5 text-left">
-      <label className="text-[11px] font-semibold uppercase tracking-wider text-metro-muted">{label}</label>
+    <div className="flex-1 relative flex flex-col gap-2 text-left">
+      <label className="text-[12px] font-semibold text-gray-400 tracking-wide uppercase">{label}</label>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full h-12 px-4 rounded-xl border border-metro-border bg-metro-card text-left text-[14px] font-medium text-metro-dark flex items-center justify-between transition-all hover:border-metro-muted/40 focus:outline-none focus:shadow-focusRing"
+        className="w-full h-12 px-4 rounded-xl border border-gray-800 bg-[#0F172A] text-left text-[14px] text-white flex items-center justify-between transition-all hover:border-gray-700"
       >
-        <span className={value ? "text-metro-dark" : "text-metro-muted font-normal"}>
+        <span className={value ? "text-white font-medium" : "text-gray-500"}>
           {value || placeholder}
         </span>
-        
-<svg 
-  width="16" 
-  height="16" 
-  className="w-4 h-4 text-metro-muted" 
-  fill="none" 
-  viewBox="0 0 24 24" 
-  stroke="currentColor"
->
-  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-</svg>
+        <svg width="16" height="16" className="text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
       </button>
 
       {isOpen && (
-        <div className="absolute top-[70px] left-0 w-full bg-metro-card border border-metro-border rounded-xl shadow-premium z-50 p-2 overflow-hidden transition-all animate-in fade-in slide-in-from-top-2 duration-200">
+        <div className="absolute top-[74px] left-0 w-full bg-[#111827] border border-gray-800 rounded-xl shadow-2xl z-50 p-2">
           <input
             type="text"
-            placeholder="Search matching stations..."
+            placeholder="Filter stations..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full h-9 px-3 text-[13px] bg-metro-canvas border border-metro-border rounded-lg mb-2 focus:outline-none focus:border-metro-accent/50"
+            className="w-full h-9 px-3 text-[13px] bg-[#0F172A] border border-gray-800 text-white rounded-lg mb-1.5 focus:outline-none focus:border-emerald-500/50"
           />
-          <div className="max-h-48 overflow-y-auto flex flex-col gap-0.5 custom-scrollbar">
-            {filteredStations.length > 0 ? (
-              filteredStations.map((station) => (
-                <button
-                  key={station}
-                  onClick={() => {
-                    onChange(station);
-                    setIsOpen(false);
-                    setSearch("");
-                  }}
-                  className="w-full h-9 px-3 text-left text-[13px] text-metro-dark hover:bg-metro-canvas font-medium rounded-lg transition-colors flex items-center justify-between"
-                >
-                  {station}
-                </button>
-              ))
-            ) : (
-              <span className="text-[12px] text-metro-muted px-3 py-2 italic">No station matches detected.</span>
-            )}
+          <div className="max-h-40 overflow-y-auto flex flex-col gap-0.5 custom-scrollbar">
+            {filtered.map(station => (
+              <button
+                key={station}
+                onClick={() => { onChange(station); setIsOpen(false); setSearch(""); }}
+                className="w-full h-9 px-3 text-left text-[13px] text-gray-300 hover:bg-[#1F2937] hover:text-white rounded-lg transition-colors"
+              >
+                {station}
+              </button>
+            ))}
           </div>
         </div>
       )}
