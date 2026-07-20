@@ -9,21 +9,17 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+        sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
       },
       colors: {
         metro: {
-          canvas: "#FBFBFA",       // Soft, warm Apple/Claude-style off-white canvas
-          card: "#FFFFFF",         // Crisp white panel background layer
-          border: "#EAE9E4",       // Extremely soft warm gray border rule
-          muted: "#706E6B",        // Accessible descriptive text shade
-          dark: "#1A1917",         // True deep gray for optimal crisp text reading
-          accent: "#D97706",       // Premium amber accent light marker
+          canvas: "#070A13",       // True deep spatial background
+          card: "#111827",         // Elegant dark card plate
+          border: "#1F2937",       // Clean layout bounding stroke
+          muted: "#9CA3AF",        // Gray text utility asset
+          accent: "#10B981",       // Dynamic emerald action color token
+          textMain: "#F9FAFB",     // Near-white text contrast
         },
-      },
-      boxShadow: {
-        premium: "0 2px 8px -2px rgba(26, 25, 23, 0.04), 0 12px 24px -4px rgba(26, 25, 23, 0.04)",
-        focusRing: "0 0 0 3px rgba(217, 119, 6, 0.15)",
       },
     },
   },
