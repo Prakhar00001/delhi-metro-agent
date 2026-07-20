@@ -27,9 +27,17 @@ export default function StationSelector({ label, placeholder, stations, value, o
         <span className={value ? "text-metro-dark" : "text-metro-muted font-normal"}>
           {value || placeholder}
         </span>
-        <svg className="w-4 h-4 text-metro-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
+        
+<svg 
+  width="16" 
+  height="16" 
+  className="w-4 h-4 text-metro-muted" 
+  fill="none" 
+  viewBox="0 0 24 24" 
+  stroke="currentColor"
+>
+  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+</svg>
       </button>
 
       {isOpen && (
