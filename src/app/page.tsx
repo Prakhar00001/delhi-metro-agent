@@ -1,122 +1,111 @@
-'use client';
+"use client";
+import React, { useState } from "react";
+import MetroLogo from "@/components/MetroLogo";
+import StationSelector from "@/components/StationSelector";
+import PromptEditor from "@/components/PromptEditor";
+import ResultsContainer from "@/components/ResultsContainer";
 
-import React, { useState } from 'react';
-import { Compass, Train, CircleAlert, Landmark, UserCheck, RefreshCw } from 'lucide-react';
+// Mock Data Catalog matching backend configuration parameters
+const DMRC_SAMPLE_STATIONS = [
+  "Millennium City Centre Gurugram",
+  "IFFCO Chowk",
+  "MG Road",
+  "Sikanderpur",
+  "Rajiv Chowk",
+  "Kashmere Gate",
+  "Noida Sector 62",
+  "Hauz Khas"
+];
 
-interface RouteMetadata {
-  path: string[];
-  cost: number;
-  duration: number;
-  crowded_nodes: string[];
-}
+export default function Home() {
+  const [source, setSource] = useState("");
+  const [destination, setDestination] = useState("");
+  const [query, setQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [result, setResult] = useState<any>(null);
 
-export default function Dashboard() {
-  const [userInput, setUserInput] = useState('Go from Huda City Centre to Rajiv Chowk now');
-  const [preferences, setPreferences] = useState('Prefer low crowding.');
-  const [loading, setLoading] = useState(false);
-  const [agentResponse, setAgentResponse] = useState('');
-  const [meta, setMeta] = useState<RouteMetadata | null>(null);
+  const triggerSearchPipeline = async () => {
+    if (!query.trim() && (!source || !destination)) return;
+    setIsLoading(true);
+    
+    // Auto-enrich natural query strings if dropdown selectors contain state values
+    let calculatedQuery = query;
+    if (source && destination && !query.trim()) {
+      calculatedQuery = `Optimize commute transit path from ${source} to ${destination}`;
+    }
 
-  const calculateRoute = async () => {
-    setLoading(true);
-    setMeta(null);
     try {
-      const res = await fetch('/api/commute', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ input: userInput, preferences })
+      // Direct integration interface targeting your localized Python Flask microservice
+      const response = await fetch("http://127.0.0.1:5000/api/commute", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: calculatedQuery,
+          preferences: "Prioritize low congestion vectors."
+        })
       });
-      const data = await res.json();
-      setAgentResponse(data.agent_response || 'Error running analysis generation.');
-      if (data.route_computed) setMeta(data.metadata);
-    } catch {
-      setAgentResponse('API request failure.');
+      const data = await response.json();
+      setResult(data);
+    } catch (error) {
+      console.error("Critical Network Interception Error:", error);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
   return (
-    <main className="min-h-screen p-6 max-w-6xl mx-auto space-y-8">
-      <header className="border-b border-slate-800 pb-4 flex justify-between items-center">
-        <div className="flex items-center gap-3">
-          <div className="bg-emerald-500 text-slate-950 p-2 rounded-lg"><Compass size={24} /></div>
-          <div>
-            <h1 className="text-xl font-bold">Delhi Metro Commute AI Agent</h1>
-            <p className="text-xs text-slate-400">GTFS-Optimized Multi-Modal Guidance</p>
-          </div>
-        </div>
-      </header>
+    <main className="min-h-screen bg-metro-canvas px-4 py-12 md:py-20 text-center flex flex-col items-center select-none font-sans">
+      <div className="w-full max-w-4xl flex flex-col items-center gap-8 md:gap-12">
+        
+        {/* Top Header Block */}
+        <header className="flex flex-col items-center gap-4 animate-in fade-in duration-500">
+          <MetroLogo />
+          <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-metro-dark mt-2 max-w-2xl leading-tight">
+            Navigate the Delhi Metro via <span className="text-metro-accent font-extrabold">Autonomous Intelligence</span>
+          </h1>
+          <p className="text-metro-muted text-[15px] max-w-lg font-medium leading-relaxed">
+            Deploys live crowd density parameters and deterministic graph network models to build transfer advisories.
+          </p>
+        </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="bg-slate-900 p-5 rounded-xl space-y-4 h-fit border border-slate-800">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
-            <Landmark size={14} /> Journey Details
-          </h2>
-          <div>
-            <label className="text-xs text-slate-400 block mb-1">Commuter Request</label>
-            <textarea value={userInput} onChange={e => setUserInput(e.target.value)} rows={3} className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-sm text-slate-200 focus:outline-none focus:border-emerald-500" />
-          </div>
-          <div>
-            <label className="text-xs text-slate-400 block mb-1">User Preference Profile</label>
-            <input type="text" value={preferences} onChange={e => setPreferences(e.target.value)} className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-sm text-slate-200 focus:outline-none focus:border-emerald-500" />
-          </div>
-          <button onClick={calculateRoute} disabled={loading} className="w-full bg-emerald-500 text-slate-950 font-semibold py-2 rounded-lg text-sm hover:bg-emerald-400 disabled:opacity-50 transition-colors flex items-center justify-center gap-2">
-            {loading ? <RefreshCw className="animate-spin" size={16} /> : <Train size={16} />} Get Route Strategy
-          </button>
-        </div>
-
-        <div className="lg:col-span-2 space-y-6">
-          {agentResponse ? (
-            <>
-              {meta && (
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="bg-slate-900 border border-slate-800 p-3 rounded-lg text-center">
-                    <div className="text-xs text-slate-400">Duration</div>
-                    <div className="text-lg font-bold text-emerald-400">{meta.duration} mins</div>
-                  </div>
-                  <div className="bg-slate-900 border border-slate-800 p-3 rounded-lg text-center">
-                    <div className="text-xs text-slate-400">Total Cost</div>
-                    <div className="text-lg font-bold text-emerald-400">₹{meta.cost}</div>
-                  </div>
-                  <div className="bg-slate-900 border border-slate-800 p-3 rounded-lg text-center">
-                    <div className="text-xs text-slate-400">Stops</div>
-                    <div className="text-lg font-bold text-emerald-400">{meta.path.length} Stations</div>
-                  </div>
-                </div>
-              )}
-
-              <div className="bg-slate-900 border border-slate-800 p-5 rounded-xl space-y-3">
-                <h3 className="font-semibold text-sm border-b border-slate-800 pb-2 text-slate-300">AI Strategy Advisory</h3>
-                <p className="text-slate-300 text-sm whitespace-pre-wrap leading-relaxed">{agentResponse}</p>
-              </div>
-
-              {meta && (
-                <div className="bg-slate-900 border border-slate-800 p-5 rounded-xl space-y-3">
-                  <h3 className="font-semibold text-sm text-slate-300">Dynamic Itinerary Stops Map</h3>
-                  <div className="flex flex-wrap items-center gap-2">
-                    {meta.path.map((station, i) => {
-                      const busy = meta.crowded_nodes.includes(station);
-                      return (
-                        <React.Fragment key={i}>
-                          <div className={`px-2 py-1 text-xs border rounded font-medium flex items-center gap-1 ${busy ? 'bg-amber-950/40 border-amber-800 text-amber-300' : 'bg-slate-950 border-slate-800'}`}>
-                            {station} {busy && <CircleAlert size={12} className="text-amber-400" />}
-                          </div>
-                          {i < meta.path.length - 1 && <span className="text-slate-600 text-xs">→</span>}
-                        </React.Fragment>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-            </>
-          ) : (
-            <div className="border border-dashed border-slate-800 h-64 rounded-xl flex flex-col items-center justify-center text-slate-500 text-sm p-4">
-              <Compass size={32} className="text-slate-700 mb-2" />
-              Provide journey destinations to invoke the transit agent framework.
+        {/* Clean Apple/Claude-style Interface Board */}
+        <section className="w-full flex flex-col gap-4">
+          
+          {/* Explicit Selector Row */}
+          <div className="w-full bg-metro-card border border-metro-border rounded-2xl shadow-premium p-4 flex flex-col sm:flex-row gap-4">
+            <StationSelector 
+              label="Source Hub" 
+              placeholder="Select origin station..." 
+              stations={DMRC_SAMPLE_STATIONS} 
+              value={source} 
+              onChange={setSource} 
+            />
+            <div className="hidden sm:flex items-center justify-center pt-5 text-metro-muted/40">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+              </svg>
             </div>
-          )}
-        </div>
+            <StationSelector 
+              label="Destination Vector" 
+              placeholder="Select target station..." 
+              stations={DMRC_SAMPLE_STATIONS} 
+              value={destination} 
+              onChange={setDestination} 
+            />
+          </div>
+
+          {/* Conversational Prompt Box */}
+          <PromptEditor 
+            query={query} 
+            setQuery={setQuery} 
+            onSubmit={triggerSearchPipeline} 
+            isLoading={isLoading} 
+          />
+        </section>
+
+        {/* Dynamic Analytics Data Output View */}
+        <ResultsContainer data={result} />
+
       </div>
     </main>
   );
